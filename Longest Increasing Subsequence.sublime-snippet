@@ -1,0 +1,25 @@
+<snippet>
+	<content><![CDATA[
+int LIS(vector<int> &a) {
+    int n = a.size();
+    vector<int> lis;
+    for(int i = 0 ; i < n ; i++) {
+        int lb = lower_bound(all(lis), a[i]) - lis.begin();
+        if(lis.size() == lb) {
+            lis.push_back(a[i]);
+        }
+        else {
+            lis[lb] = a[i];
+        }
+    }
+
+    return (int)lis.size();
+}
+// LCS with LIS possible when the string is unique
+// TC -> O(NlogN)
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>LIS</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

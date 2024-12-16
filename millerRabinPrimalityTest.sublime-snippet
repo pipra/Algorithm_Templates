@@ -1,0 +1,59 @@
+<snippet>
+	<content><![CDATA[
+int multi(int a , int b , int mod){
+    a %= mod;
+    int res = 0;
+    while(b){
+        if(b&1)
+            res = (res + a) % mod;
+        a = (a + a) % mod;
+        b >>= 1;
+    }
+    return res;
+}
+int power(int a, int n, int mod){
+    a %= mod;
+    int res = 1;
+    while(n){
+        if(n&1)
+            res = multi(res, a, mod);
+        a = multi(a, a, mod);
+        n >>= 1;
+    }
+    return res;
+}
+bool check_composite(int n, int a, int d, int s){
+    int x = power(a, d, n);
+    if(x == 1 or x == (n - 1))
+        return false ;
+    for(int i = 1 ; i < s ; i++){
+        x = multi(x, x, n);
+        if(x == (n-1))
+            return false;
+    }
+    return true;
+}
+bool millerRabin(int n){
+    if(n < 4)
+        return n == 2 or n == 3;
+    vector<int> a = {2,3,5,7,11,13,17,19,23,29,31,37} ;
+    int r = 0;
+    int d = n-1;
+    while( !(d&1)){
+        d >>= 1;
+        r++;
+    }
+    for(auto i : a){
+        if( check_composite(n, i%(n-1), d, r) )
+            return false;
+    }
+    return true;
+}
+// set int = long long int
+// TC -> O(logN * logN)
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>millerRabin</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

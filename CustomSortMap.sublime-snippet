@@ -1,0 +1,14 @@
+<snippet>
+	<content><![CDATA[
+auto cmp = [](ii a, ii b) {
+    if(a.first == b.first)
+        return a.second < b.second;
+    return a.first > b.first;
+};
+map<ii, int, function<bool(ii,ii)>> m(cmp);
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>customSortMap</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

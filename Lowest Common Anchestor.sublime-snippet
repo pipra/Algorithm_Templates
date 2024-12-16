@@ -1,0 +1,64 @@
+<snippet>
+	<content><![CDATA[
+const int N = 2e5 + 5, LG = 20;
+
+vector<int> g[N];
+int parent[N][LG + 1], dep[N];
+// int mx[N][LG + 1], mn[N][LG + 1];
+
+void dfs(int u, int p) { // take parameter mxi, mni for max min
+    parent[u][0] = p;
+    dep[u] = dep[p] + 1;
+    // mx[u][0] = mxi;     mn[u][0] = mni;
+    for (int i = 1; i <= LG; i++) {
+        parent[u][i] = parent[parent[u][i - 1]][i - 1];
+        // mx[u][i] = max(mx[u][i - 1], mx[ parent[u][i - 1] ] [i - 1]);
+        // mn[u][i] = min(mn[u][i - 1], mn[ parent[u][i - 1] ] [i - 1]);
+    }
+    for (auto v: g[u]) if (v != p) {
+        dfs(v, u);
+    }
+}
+int LCA(int u, int v) {
+    if (dep[u] < dep[v]) 
+        swap(u, v);
+    for (int k = LG; k >= 0; k--) 
+        if (dep[parent[u][k]] >= dep[v]) 
+            u = parent[u][k];
+    if (u == v) return u;
+    for (int k = LG; k >= 0; k--) 
+        if (parent[u][k] != parent[v][k])
+            u = parent[u][k], v = parent[v][k];
+    return parent[u][0];
+}
+int kth(int u, int k) {
+    assert(k >= 0);
+    for (int i = 0; i <= LG; i++) 
+        if (k & (1 << i)) 
+            u = parent[u][i];
+    return u;
+}
+int dist(int u, int v) {
+    int l = LCA(u, v);
+    return dep[u] + dep[v] - (dep[l] << 1);
+}
+// Kth from [u -> v], 0th node is u
+int go(int u, int v, int k) {
+    int l = LCA(u, v);
+    int d = dep[u] + dep[v] - (dep[l] << 1);
+    assert(k <= d);
+    if (dep[l] + k <= dep[u]) 
+        return kth(u, k);
+    k -= dep[u] - dep[l];
+    return kth(v, dep[v] - dep[l] - k);
+}
+// dep[0] = -1
+// dfs(u, 0)
+// TC -> build: NlogN
+//    -> query: logN
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>LCA</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

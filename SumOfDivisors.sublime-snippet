@@ -1,0 +1,37 @@
+<snippet>
+	<content><![CDATA[
+const int  M = 1e9 + 7;
+int power( int a , int n, int M){
+    int res = 1;
+    while ( n ){
+        if( n&1 )
+            res = (res * a) % M;
+        a = (a*a) % M;
+        n >>= 1; 
+    }
+    return res;
+}
+ 
+int sumOfDivisors(int n){
+    int invTwo = power(2,M - 2, M);
+
+    int res = 0 ;
+    for(int i = 1, j ; i <= n ; i = j){
+        int q = n/i;
+        j = (n/q) + 1;
+ 
+        int upToJ = (invTwo * (((j%M) * ((j-1) % M)) % M )) % M;
+        int upToI = (invTwo * (((i%M) * ((i-1) % M)) % M )) % M;
+        int range = ( upToJ - upToI + M ) % M;
+ 
+        res = (res + ((q%M) * range) ) % M;
+    }
+ 
+    return res;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sumOfDivisors</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

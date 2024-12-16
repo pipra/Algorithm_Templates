@@ -1,0 +1,34 @@
+<snippet>
+	<content><![CDATA[
+const int N = 3e5 + 9;
+
+template <class T>
+struct BIT {
+  int n; vector<T> t;
+  BIT() {}
+  BIT(int _n) {
+    n = _n; t.assign(n + 1, 0);
+  }
+  T query(int i) {
+    T ans = 0;
+    for (; i >= 1; i -= (i & -i)) ans += t[i];
+    return ans;
+  }
+  void update(int i, T val) {
+    if (i <= 0) return;
+    for (; i <= n; i += (i & -i)) t[i] += val;
+  }
+  void update(int l, int r, T val) {
+    update(l, val);
+    update(r + 1, -val);
+  }
+  T query(int l, int r) {
+    return query(r) - query(l - 1);
+  }
+}; // Index based on 1
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>fenwick</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

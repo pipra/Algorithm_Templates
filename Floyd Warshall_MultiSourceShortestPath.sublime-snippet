@@ -1,0 +1,33 @@
+<snippet>
+	<content><![CDATA[
+struct FLOYD_WARSHALL {
+    int N;
+    int inf = 1e9;
+    vector<vector<int>> d;
+    void init(int _N){
+        N = _N;
+        d.resize(N, vector<int>(N, inf));
+        for(int i=0; i<N ; i++) d[i][i] = 0;
+    }
+    void ae(int u, int v, int w){
+        d[u][v] = min(d[u][v], w);
+        d[v][u] = min(d[v][u], w);
+    }
+    void gen(){
+        for(int k = 1; k<N ; k++)
+            for(int i=1; i<N ; i++)
+                for(int j=1; j<N ; j++)
+                    d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
+    }
+};
+/*
+    It is used for all pairs shortest path from a weighted graph
+    works n times == - weighted cyles present
+*/
+FLOYD_WARSHALL floyd;    
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>floydWarshall</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

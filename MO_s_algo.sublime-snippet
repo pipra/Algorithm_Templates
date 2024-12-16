@@ -1,0 +1,49 @@
+<snippet>
+	<content><![CDATA[
+struct Node {
+    int l, r, ind, div;
+};
+vector<int> MO_s(vector<Node> &mos) {
+    vector<int> ans(mos.size());
+    auto cmp = [](Node a, Node b) {
+        if(a.div == b.div)
+            return a.r > b.r;
+        return a.div < b.div;
+    };
+    sort(mos.begin(), mos.end(), cmp);
+
+    int cur_l = 0, cur_r = -1;
+    for (Node &q : mos) {       // always [l, r]
+        while (cur_r < q.r) {
+            cur_r++;
+            // implement logic
+        }
+        while (cur_l > q.l) {
+            cur_l--;
+            // implement logic
+        }
+        while (cur_l < q.l) {
+            // implement logic;
+            cur_l++;
+        }
+        while (cur_r > q.r) {
+            // implement logic
+            cur_r--;
+        }
+        // ans[q.idx] = ;  // implement answer basis on logic
+    }
+    return ans;
+}
+// If gives TLE, then try without MO's function
+// first create vector<Node> mos;
+// mos[i].l=l-1, ..r=r-1, ..ind=i, ..div=(l-1)/len;
+// len = sqrt(n) + 1;
+// array a declare globally
+// TC -> sort:  O(KlogK) +
+//    -> query: O(N sqrt(K))
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>MOs_Algo</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>
